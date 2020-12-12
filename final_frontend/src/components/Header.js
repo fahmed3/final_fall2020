@@ -1,13 +1,14 @@
 import React from "react";
 
-function Header({ loggedIn, LogoutFunction }) {
+function Header({ loggedIn, LogoutFunction, userInformation }) {
   return (
     <div className="Header">
       <header>
         <nav>
           {loggedIn ? (
             <>
-              <a href="/">User Profile</a>
+              <a href="/">Home</a>
+              <a href={`/profile/${userInformation.uid}`}>Profile</a>
               <a onClick={() => LogoutFunction()}>Logout</a>
             </>
           ) : (

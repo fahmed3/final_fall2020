@@ -12,9 +12,11 @@ import Login from "./containers/Login";
 import CreateAccount from "./containers/CreateAccount";
 import UserProfile from "./containers/UserProfile";
 import Header from "./components/Header";
+import CreateEvent from "./containers/CreateEvent";
+import UserEvents from "./containers/UserEvents";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA7d8Jj5yANuHMXooqUjeOgJPRePZVlVaw", //process.env.REACT_APP_FIREBASE_APIKEY,
+  apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
   authDomain: "final-project-fall2020.firebaseapp.com",
   projectId: "final-project-fall2020",
   storageBucket: "final-project-fall2020.appspot.com",
@@ -113,7 +115,11 @@ function App() {
 
   return (
     <div className="App">
-      <Header loggedIn={loggedIn} LogoutFunction={LogoutFunction} />
+      <Header
+        loggedIn={loggedIn}
+        LogoutFunction={LogoutFunction}
+        userInformation={userInformation}
+      />
       <Router>
         <Route exact path="/login">
           {/** If someone is logged in don't take them to login page - take them to user profile */}
@@ -131,12 +137,24 @@ function App() {
             <Redirect to="/" />
           )}
         </Route>
+        <Route exact path="/create-event">
+          {!loggedIn ? (
+            <Redirect to="/login" />
+          ) : (
+            <CreateEvent userInformation={userInformation} />
+          )}
+        </Route>
+        <Route exact path="/profile/:id">
+          {/** If someone is not logged in, do not take them to user profile page */}
+          {!loggedIn ? <Redirect to="/login" /> : <UserEvents />}
+        </Route>
         <Route exact path="/">
           {/** If someone is not logged in, do not take them to user profile page */}
           {!loggedIn ? (
             <Redirect to="/login" />
           ) : (
             <UserProfile userInformation={userInformation} />
+            //or <UserEvents>
           )}
         </Route>
       </Router>
