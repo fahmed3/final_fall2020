@@ -1,28 +1,31 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
+import useHistory from "react-router-dom";
 
+// changes to be made
+// no like this button or number of likes
+// only name of event shown, as a link to event page
 function EventCard({ eventData }) {
-  const [likes, setLikes] = useState(0);
-
-  useEffect(() => {
-    if (eventData.likes) {
-      return setLikes(eventData.likes.length);
-    }
-  }, [eventData]);
-
-  function likePost() {
-    axios
-      .get(`localhost:4000/like-post/${eventData.id}`)
-      .then(function () {
-        setLikes(likes + 1);
-      })
-      .catch();
-  }
+  // const [likes, setLikes] = useState(0);
+  // useEffect(() => {
+  //   if (eventData.likes) {
+  //     return setLikes(eventData.likes.length);
+  //   }
+  // }, [eventData]);
+  // function likePost() {
+  //   axios
+  //     .get(`localhost:4000/like-post/${eventData.id}`)
+  //     .then(function () {
+  //       setLikes(likes + 1);
+  //     })
+  //     .catch();
+  // }
 
   return (
     <div className="EventCard">
-      <h2>{eventData.eventName}</h2>
-      <button onClick={() => likePost}> Like this </button>
+      <h2>
+        <a href={`/event/${eventData.eventID}`}>{eventData.eventName}</a>
+      </h2>
+      {/* <button onClick={() => likePost}> Like this </button>
       <p>Liked by {likes} people... </p>
       <ul>
         {eventData.ingredients &&
@@ -31,7 +34,7 @@ function EventCard({ eventData }) {
               {ingredient.name} - {ingredient.amount}
             </li>
           ))}
-      </ul>
+      </ul> */}
     </div>
   );
 }

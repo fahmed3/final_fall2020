@@ -20,7 +20,7 @@ const indexRoute = require("./routes/index.js");
 const createEvent = require("./routes/createEvent.js");
 const joinEvent = require("./routes/joinEvent.js");
 const profile = require("./routes/profile.js");
-// add firebase here like excercise 4
+const event = require("./routes/event.js");
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
@@ -31,13 +31,10 @@ app.use(function (req, res, next) {
   next();
 });
 
-// uid: K22O1cn3x0eGK6rM1ALxJRUMIlL2
-// lecture 15 min in
-
-// add more routes for getting and submitting like exercise 4
 app.use("/", indexRoute);
 app.use("/profile", profile);
 app.use("/create", createEvent);
 app.use("/join", joinEvent);
+app.use("/event", event);
 
 app.listen(port, () => console.log(`Backend is running at port:${port}`));

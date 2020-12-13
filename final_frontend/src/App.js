@@ -16,6 +16,7 @@ import CreateEvent from "./containers/CreateEvent";
 import Profile from "./containers/Profile";
 import CreateAnonAccount from "./containers/CreateAnonAccount";
 import JoinEvent from "./containers/JoinEvent";
+import Event from "./containers/Event";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
@@ -195,6 +196,14 @@ function App() {
             <Redirect to="/login" />
           ) : (
             <Home userInformation={userInformation} />
+          )}
+        </Route>
+        <Route exact path="/event/:id">
+          {/** If someone is not logged in, do not take them to user profile page */}
+          {!loggedIn ? (
+            <Redirect to="/login" />
+          ) : (
+            <Event userInformation={userInformation} />
           )}
         </Route>
       </Router>

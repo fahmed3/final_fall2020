@@ -3,53 +3,33 @@ const router = express.Router();
 
 const firebase = require("firebase");
 const db = firebase.firestore();
-const events = db.collection("events");
+const users = db.collection("users");
 
-router.get("/events", (req, res) => {
-  const queryParams = req.query;
-  console.log("hello how are you");
-  console.log(queryParams);
-  const eventsArray = [];
-  res.send(queryParams);
-  //get ID
-  // const queryId = req.params.id;
-
-  //also figure out how to get all invited to events
-  // events
-  //   .where("eventCreatorId", "==", queryId)
-  //   .get()
-  //   .then((querySnapshot) => {
-  //     // Loop through each query snapshot and add to array
-  //     querySnapshot.forEach((doc) => {
-  //       eventsArray.push(doc.data());
-  //     });
-  //     return res.send(eventsArray);
-  //   })
-  //   .catch(function (e) {
-  //     console.warn("error", e);
-  //     return res.send(error);
-  //   });
-});
-
-router.get("/", (req, res) => {
-  console.log("home page for index");
-  res.send("Home page, won't even be used");
-});
+// router.get("/", (req, res) => {
+//   console.log("home page for index");
+//   res.send("Home page, won't even be used");
+// });
 
 router.get("/all-events", (req, res) => {
   console.log("all-events");
   const eventsArray = [];
-  events
+  let event_ids = [];
+  const queryParams = req.query;
+
+  users
+    .doc(queryParams["userID"])
     .get()
-    .then((querySnapshot) => {
-      // Loop through each query snapshot and add to array
-      querySnapshot.forEach((doc) => {
-        eventsArray.push(doc.data());
-      });
-      return res.send(eventsArray);
+    .then((documentSnapshot) => {
+      if (documentSnapshot.exists) {
+        event_ids = documentSnapshot.data()["all_events"];
+        return res.send(event_ids);
+      } else {
+        console.warn("document not found");
+        return res.send([]);
+      }
     })
-    .catch(function (e) {
-      console.warn("error", e);
+    .catch(function (error) {
+      console.warn("all-events error", error);
       return res.send(error);
     });
 });
