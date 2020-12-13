@@ -10,10 +10,12 @@ import "./App.css";
 // Pages
 import Login from "./containers/Login";
 import CreateAccount from "./containers/CreateAccount";
-import UserProfile from "./containers/UserProfile";
+import Home from "./containers/Home";
 import Header from "./components/Header";
 import CreateEvent from "./containers/CreateEvent";
-import UserEvents from "./containers/UserEvents";
+import Profile from "./containers/Profile";
+import CreateAnonAccount from "./containers/CreateAnonAccount";
+import JoinEvent from "./containers/JoinEvent";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
@@ -77,6 +79,8 @@ function App() {
       });
   }
 
+  // iAH7L4BGZEg4U72ipWlW96Mcb4Y2
+
   // Function for logging out
   function LogoutFunction() {
     // Function to run when you want to log out
@@ -111,6 +115,22 @@ function App() {
       });
   }
 
+  function CreateAnonAccountFunction(e) {
+    e.preventDefault();
+
+    firebase
+      .auth()
+      .signInAnonymously()
+      .then(() => {
+        //signedin stuff
+        setLoggedIn(true);
+        console.log("signed in yay");
+      })
+      .catch((error) => {
+        console.warn("ANON-SIGN-IN-ERROR", error);
+      });
+  }
+
   if (loading) return null;
 
   return (
@@ -137,6 +157,16 @@ function App() {
             <Redirect to="/" />
           )}
         </Route>
+        <Route exact path="/join">
+          {/** If someone is logged in, do not take them to create account page */}
+          {!loggedIn ? (
+            <CreateAnonAccount
+              CreateAnonAccountFunction={CreateAnonAccountFunction}
+            />
+          ) : (
+            <Redirect to="/" />
+          )}
+        </Route>
         <Route exact path="/create-event">
           {!loggedIn ? (
             <Redirect to="/login" />
@@ -144,17 +174,27 @@ function App() {
             <CreateEvent userInformation={userInformation} />
           )}
         </Route>
-        <Route exact path="/profile/:id">
+        <Route exact path="/join-event">
+          {!loggedIn ? (
+            <Redirect to="/login" />
+          ) : (
+            <JoinEvent userInformation={userInformation} />
+          )}
+        </Route>
+        <Route exact path="/profile">
           {/** If someone is not logged in, do not take them to user profile page */}
-          {!loggedIn ? <Redirect to="/login" /> : <UserEvents />}
+          {!loggedIn ? (
+            <Redirect to="/login" />
+          ) : (
+            <Profile userInformation={userInformation} />
+          )}
         </Route>
         <Route exact path="/">
           {/** If someone is not logged in, do not take them to user profile page */}
           {!loggedIn ? (
             <Redirect to="/login" />
           ) : (
-            <UserProfile userInformation={userInformation} />
-            //or <UserEvents>
+            <Home userInformation={userInformation} />
           )}
         </Route>
       </Router>

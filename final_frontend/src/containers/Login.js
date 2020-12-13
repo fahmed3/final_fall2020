@@ -1,11 +1,16 @@
 import React from "react";
-import LoginForm from "../components/LoginForm";
 
 function Login({ LoginFunction }) {
   return (
     <div>
       <h1> Login </h1>
-      <LoginForm LoginFunction={LoginFunction} />
+      <form className="SignupForm" onSubmit={(e) => LoginFunction(e)}>
+        <label htmlFor="loginEmail">Email</label>
+        <input type="email" name="loginEmail" />
+        <label htmlFor="loginPassword">Password</label>
+        <input type="password" name="loginPassword" />
+        <button>Submit</button>
+      </form>
     </div>
   );
 }

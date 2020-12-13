@@ -8,7 +8,7 @@ function Header({ loggedIn, LogoutFunction, userInformation }) {
           {loggedIn ? (
             <>
               <a href="/">Home</a>
-              <a href={`/profile/${userInformation.uid}`}>Profile</a>
+              <a href={`/profile`}>Profile</a>
               <a onClick={() => LogoutFunction()}>Logout</a>
             </>
           ) : (
