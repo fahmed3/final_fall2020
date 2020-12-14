@@ -4,6 +4,8 @@ const router = express.Router();
 const firebase = require("firebase");
 const db = firebase.firestore();
 
+//adds user to event's invitees list
+//
 router.get("/", (req, res) => {
   console.log("joinEvent");
 

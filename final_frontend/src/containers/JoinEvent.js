@@ -14,18 +14,12 @@ function JoinEvent({ userInformation }) {
     axios
       .get(`http://localhost:4000/join?eventID=${eventID}&userID=${userID}`)
       .then(function (response) {
-        // console.log({ SUCCESS: response.data });
         eventName = response.data["eventName"];
-        //reroute user after form submission
         history.push(`/event/${eventID}`);
-        //reroute to ask them about which modules to include
       })
       .catch(function (error) {
         console.warn("error creating post", error);
       });
-
-    console.log("eventName", eventName);
-    console.log("hello ", e.currentTarget);
   }
 
   return (
