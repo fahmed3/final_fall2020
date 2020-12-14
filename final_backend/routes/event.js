@@ -5,6 +5,7 @@ const firebase = require("firebase");
 const db = firebase.firestore();
 
 router.get("/", (req, res) => {
+  console.log("event");
   const queryParams = req.query;
   const events = db.collection("events").doc(queryParams["eventID"]);
 

@@ -3,11 +3,8 @@ import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-//to be filled
 function Event() {
   const [eventData, setEventData] = useState([]);
-  //let eventData = {};
-  // const [loading, setLoading]
   let { id } = useParams();
 
   useEffect(() => {
@@ -20,7 +17,7 @@ function Event() {
       .catch((error) => {
         console.warn("event error", error);
       });
-  }, []);
+  }, [id]);
 
   if (!eventData.invitees) return null;
 
@@ -28,7 +25,7 @@ function Event() {
     <div>
       <h1>
         Event Page for{" "}
-        <span className="emphasis">{eventData["eventName"]}</span>{" "}
+        <span className="emphasis">{eventData["eventName"]}</span>
       </h1>
       <div className="innerContainer">
         <p>
@@ -40,6 +37,9 @@ function Event() {
             return <p key={i}> {invitee} | </p>;
           })}
         </div>
+        <h2>
+          <a href={`/gallery/${id}`}> Visit Gallery </a>
+        </h2>
       </div>
     </div>
   );

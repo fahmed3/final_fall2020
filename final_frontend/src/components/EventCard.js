@@ -19,8 +19,6 @@ function EventCard({ eventData }) {
   //     .catch();
   // }
 
-  console.log(eventData);
-
   return (
     <div className="EventCard">
       <h2>

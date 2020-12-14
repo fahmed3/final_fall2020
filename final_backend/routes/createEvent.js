@@ -12,6 +12,7 @@ router.get("/", (req, res) => {
   console.log("createEvent");
   const queryParams = req.query;
   queryParams["invitees"] = [];
+  queryParams["images"] = [];
 
   events
     .add(queryParams)

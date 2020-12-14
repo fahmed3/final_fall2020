@@ -8,13 +8,13 @@
 }
 
 .Header nav a {
-  color: black;
+  color: darkgreen;
   cursor: pointer;
   font-size: 20px;
   font-weight: bold;
   display: block;
   margin: 10px;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .SignupForm {
@@ -34,10 +34,22 @@
   flex-direction: column;
 }
 
-/* .Home {
+.innerContainerHome {
   display: flex;
   flex-direction: column;
-} */
+}
+
+.innerContainerHome a {
+  padding: 0px 30px;
+  border: solid 1px;
+  text-decoration: none;
+  color: seagreen;
+}
+
+.innerContainerHome a:hover {
+  background-color: lightseagreen;
+  color: darkgreen;
+}
 
 .emphasis {
   color: lightseagreen;
@@ -50,4 +62,32 @@
 
 .members p {
   padding-right: 5px;
+}
+
+.Gallery a {
+  padding-top: 30px;
+}
+
+label {
+  padding-bottom: 10px;
+}
+
+button {
+  color: seagreen;
+  background-color: white;
+  border: solid 1px;
+  font-size: medium;
+  font-weight: bold;
+  box-sizing: content-box;
+}
+
+button:hover {
+  color: darkgreen;
+  background-color: lightseagreen;
+}
+
+@media screen and (max-width: 640px) {
+  .App {
+    padding: 0px 25px 25px 25px;
+  }
 }

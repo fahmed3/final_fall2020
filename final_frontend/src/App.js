@@ -17,6 +17,9 @@ import CreateEvent from "./containers/CreateEvent";
 import Profile from "./containers/Profile";
 import JoinEvent from "./containers/JoinEvent";
 import Event from "./containers/Event";
+import UploadPicture from "./containers/UploadPicture";
+import AllEvents from "./containers/AllEvents";
+import Gallery from "./containers/Gallery";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
@@ -36,12 +39,11 @@ function App() {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
-    console.log("firebase initialized");
     firebase
       .auth()
       .setPersistence(firebase.auth.Auth.Persistence.SESSION)
       .catch(function (e) {
-        console.log("instantiating auth error", e);
+        console.warn("instantiating auth error", e);
       });
   }, []);
 
@@ -148,7 +150,6 @@ function App() {
       />
       <Router>
         <Route exact path="/login">
-          {/** If someone is logged in don't take them to login page - take them to user profile */}
           {!loggedIn ? (
             <Login LoginFunction={LoginFunction} />
           ) : (
@@ -156,7 +157,6 @@ function App() {
           )}
         </Route>
         <Route exact path="/create-account">
-          {/** If someone is logged in, do not take them to create account page */}
           {!loggedIn ? (
             <CreateAccount CreateAccountFunction={CreateAccountFunction} />
           ) : (
@@ -178,7 +178,6 @@ function App() {
           )}
         </Route>
         <Route exact path="/profile">
-          {/** If someone is not logged in, do not take them to user profile page */}
           {!loggedIn ? (
             <Redirect to="/login" />
           ) : (
@@ -186,7 +185,6 @@ function App() {
           )}
         </Route>
         <Route exact path="/">
-          {/** If someone is not logged in, do not take them to user profile page */}
           {!loggedIn ? (
             <Redirect to="/login" />
           ) : (
@@ -194,12 +192,24 @@ function App() {
           )}
         </Route>
         <Route exact path="/event/:id">
-          {/** If someone is not logged in, do not take them to user profile page */}
+          {!loggedIn ? <Redirect to="/login" /> : <Event />}
+        </Route>
+        <Route exact path="/events">
           {!loggedIn ? (
             <Redirect to="/login" />
           ) : (
-            <Event userInformation={userInformation} />
+            <AllEvents userInformation={userInformation} />
           )}
+        </Route>
+        <Route exact path="/upload/:id">
+          {!loggedIn ? (
+            <Redirect to="/login" />
+          ) : (
+            <UploadPicture userInformation={userInformation} />
+          )}
+        </Route>
+        <Route exact path="/gallery/:id">
+          {!loggedIn ? <Redirect to="/login" /> : <Gallery />}
         </Route>
       </Router>
     </div>
