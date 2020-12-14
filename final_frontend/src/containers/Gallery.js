@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useReducer } from "react";
 import axios from "axios";
 import firebase from "firebase/app";
 import "firebase/storage";
@@ -17,6 +17,7 @@ const firebaseConfig = {
 function Gallery() {
   const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   let { id } = useParams();
 
   useEffect(() => {
@@ -43,30 +44,41 @@ function Gallery() {
       });
   }, [id]);
 
-  const storageRef = firebase.storage().ref();
-  if (eventData.images && loading) {
-    const images = eventData.images;
-    for (var i = 0; i < images.length; i++) {
-      storageRef
-        .child(images[i])
-        .getDownloadURL()
-        .then((url) => {
-          //for some reason each url is given twice, getDownloadURL twice
-          var gallery = document.getElementById("gallery");
-          var img = document.createElement("img");
-          img.src = url;
-          img.style.height = "200px";
-          // img.style.height = "auto";
-          var alink = document.createElement("a");
-          alink.href = url;
-          alink.appendChild(img);
-          gallery.appendChild(alink);
-        })
-        .catch((error) => {
-          console.warn("downloading image error", error);
-        });
+  const [imagesArray, setImagesArray] = useState([]);
+  useEffect(() => {
+    const imagesArray = [];
+    const storageRef = firebase.storage().ref();
+    if (eventData.images) {
+      const images = eventData.images;
+      images.map((img) => {
+        storageRef
+          .child(img)
+          .getDownloadURL()
+          .then((url) => {
+            return imagesArray.push(url);
+          })
+          .catch((error) => {
+            console.warn("downloading image error", error);
+          });
+      });
+      // for (var i = 0; i < images.length; i++) {
+      //   storageRef
+      //     .child(images[i])
+      //     .getDownloadURL()
+      //     .then((url) => {
+      //       imagesArray.push(url);
+      //     })
+      //     .catch((error) => {
+      //       console.warn("downloading image error", error);
+      //     });
+      // }
     }
-  }
+    setImagesArray(imagesArray);
+    forceUpdate();
+  }, [eventData]);
+
+  console.log("images", imagesArray);
+  console.log("image filepaths", eventData.images);
 
   if (loading) return null;
 
@@ -81,6 +93,9 @@ function Gallery() {
         </h2>
         <br />
         <div className="Gallery" id="gallery"></div>
+        {imagesArray.map((img, i) => (
+          <img key={i} alt="" src={img} />
+        ))}
         <a href={`/event/${id}`}>Back to Event</a>
       </div>
     </div>
