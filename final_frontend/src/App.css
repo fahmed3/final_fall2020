@@ -17,6 +17,10 @@
   text-decoration: none;
 }
 
+.Header nav a:hover {
+  color: seagreen;
+}
+
 .SignupForm {
   display: flex;
   flex-direction: column;

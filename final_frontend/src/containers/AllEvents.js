@@ -9,7 +9,9 @@ function AllEvents({ userInformation }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/all-events?userID=${id}`)
+      .get(
+        `https://enigmatic-waters-66804.herokuapp.com/all-events?userID=${id}`
+      )
       .then(function (response) {
         if (response.data) {
           setUserEventsData(response.data);

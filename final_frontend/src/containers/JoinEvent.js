@@ -13,10 +13,11 @@ function JoinEvent({ userInformation }) {
 
     axios
       .get(
-        `http://localhost:4000/join?eventID=${eventID}&userID=${userID}&userName=${userName}`
+        `https://enigmatic-waters-66804.herokuapp.com/join?eventID=${eventID}&userID=${userID}&userName=${userName}`
       )
       .then(function (response) {
         // eventName = response.data["eventName"];
+        //console.log("Response", response);
         history.push(`/event/${eventID}`);
       })
       .catch(function (error) {

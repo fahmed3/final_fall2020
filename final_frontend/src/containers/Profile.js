@@ -4,9 +4,9 @@ function Profile({ userInformation }) {
   return (
     <div>
       <h1>Profile </h1>
-      <p>
+      {/* <p>
         <strong> UID: </strong> {userInformation.uid}
-      </p>
+      </p> */}
       <p>
         <strong> Display Name: </strong> {userInformation.displayName}
       </p>

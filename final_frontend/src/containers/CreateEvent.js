@@ -17,7 +17,7 @@ function CreateEvent({ userInformation }) {
 
     axios
       .get(
-        `http://localhost:4000/create?eventName=${eventName}&eventCreator=${creatorName}&eventCreatorId=${creatorId}`
+        `https://enigmatic-waters-66804.herokuapp.com/create?eventName=${eventName}&eventCreator=${creatorName}&eventCreatorId=${creatorId}`
       )
       .then(function (response) {
         console.log({ SUCCESS: response.data });
@@ -43,7 +43,7 @@ function CreateEvent({ userInformation }) {
 
     axios
       .get(
-        `http://localhost:4000/join?eventID=${eventID}&userID=${userID}&userName=${userName}`
+        `https://enigmatic-waters-66804.herokuapp.com/join?eventID=${eventID}&userID=${userID}&userName=${userName}`
       )
       .then(function (response) {
         setCreated(true);

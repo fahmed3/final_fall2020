@@ -45,7 +45,9 @@ function UploadPicture({ userInformation }) {
     }
 
     axios
-      .get(`http://localhost:4000/upload?eventID=${id}&filepath=${filepath}`)
+      .get(
+        `https://enigmatic-waters-66804.herokuapp.com/upload?eventID=${id}&filepath=${filepath}`
+      )
       .then((response) => {
         history.push(`/event/${id}`);
       })

@@ -9,7 +9,7 @@ function Event() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/event?eventID=${id}`)
+      .get(`https://enigmatic-waters-66804.herokuapp.com/event?eventID=${id}`)
       .then((response) => {
         console.log("response", response.data);
         setEventData(response.data);

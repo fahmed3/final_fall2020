@@ -33,7 +33,7 @@ function Gallery() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/event?eventID=${id}`)
+      .get(`https://enigmatic-waters-66804.herokuapp.com/event?eventID=${id}`)
       .then((response) => {
         setEventData(response.data);
         setLoading(false);

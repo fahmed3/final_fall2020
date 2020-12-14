@@ -95,7 +95,7 @@ function App() {
         setUserInformation({});
       })
       .catch(function (error) {
-        console.log("LOGOUT ERROR", error);
+        console.warn("LOGOUT ERROR", error);
       });
   }
 
@@ -126,7 +126,9 @@ function App() {
       .then((userID) => {
         //also add to users collection
         axios
-          .get(`http://localhost:4000/create/user?userID=${userID}`)
+          .get(
+            `https://enigmatic-waters-66804.herokuapp.com/create/user?userID=${userID}`
+          )
           .then((response) => {
             console.log("successful, response", response);
           })
