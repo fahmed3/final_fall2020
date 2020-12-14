@@ -1,30 +1,35 @@
 import axios from "axios";
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
 
 function CreateEvent({ userInformation }) {
-  const history = useHistory();
+  const [created, setCreated] = useState(false);
+  const [eventID, setEventID] = useState(null);
+  //const [eventName, setEventName] = useState(null);
+  const creatorId = userInformation.uid;
 
   function submitEvent(e) {
     e.preventDefault();
     const eventName = e.currentTarget.eventName.value;
-    const creatorId = userInformation.uid;
+    //setEventName(e.currentTarget.eventName.value);
+    const creatorName = userInformation.displayName;
     let docID = "";
+    console.log("Event name: ", eventName);
 
     axios
       .get(
-        `http://localhost:4000/create?eventName=${eventName}&eventCreator=${"tbd"}&eventCreatorId=${creatorId}`
+        `http://localhost:4000/create?eventName=${eventName}&eventCreator=${creatorName}&eventCreatorId=${creatorId}`
       )
       .then(function (response) {
         console.log({ SUCCESS: response.data });
         docID = response.data["docID"];
-        return docID;
+        setEventID(docID);
+        return [docID, eventName];
       })
-      .then((docID) => {
-        joinEvent(docID);
+      .then((data) => {
+        joinEvent(data[0], data[1]);
       })
       .catch(function (error) {
-        console.warn("error creating post", error);
+        console.warn("create event error", error);
       });
 
     console.log(e.currentTarget);
@@ -34,28 +39,37 @@ function CreateEvent({ userInformation }) {
   function joinEvent(eventID) {
     // const eventID = e.currentTarget.eventID.value;
     const userID = userInformation.uid;
+    const userName = userInformation.displayName;
 
     axios
-      .get(`http://localhost:4000/join?eventID=${eventID}&userID=${userID}`)
+      .get(
+        `http://localhost:4000/join?eventID=${eventID}&userID=${userID}&userName=${userName}`
+      )
       .then(function (response) {
-        // console.log({ SUCCESS: response.data });
-        //reroute user after form submission
-        history.push(`/event/${eventID}`);
-        //reroute to ask them about which modules to include
+        setCreated(true);
       })
       .catch(function (error) {
-        console.warn("error creating post", error);
+        console.warn("create event error", error);
       });
   }
 
   return (
     <div>
       <h1> Create Event </h1>
-      <form className="SignupForm" onSubmit={(e) => submitEvent(e)}>
-        <label htmlFor="eventName">Event Name</label>
-        <input type="text" name="eventName" placeholder="Event Name" />
-        <button type="submit"> Submit Event </button>
-      </form>
+      {created ? (
+        <p>
+          Yay! You just created an event. Share this code with your friends so
+          they could join: <span className="emphasis"> {eventID} </span>
+          <br /> <br />
+          <a href={`/event/${eventID}`}> Go to Event Page </a>
+        </p>
+      ) : (
+        <form className="SignupForm" onSubmit={(e) => submitEvent(e)}>
+          <label htmlFor="eventName">Event Name</label>
+          <input type="text" name="eventName" placeholder="Event Name" />
+          <button type="submit"> Submit Event </button>
+        </form>
+      )}
     </div>
   );
 }

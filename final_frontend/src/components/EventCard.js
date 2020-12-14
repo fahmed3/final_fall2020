@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import useHistory from "react-router-dom";
+import React from "react";
 
 // changes to be made
 // no like this button or number of likes
@@ -19,6 +18,8 @@ function EventCard({ eventData }) {
   //     })
   //     .catch();
   // }
+
+  console.log(eventData);
 
   return (
     <div className="EventCard">

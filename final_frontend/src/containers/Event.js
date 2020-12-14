@@ -22,9 +22,7 @@ function Event() {
       });
   }, []);
 
-  if (eventData.size == 0) return null;
-
-  console.log("eventdata ", eventData);
+  if (!eventData.invitees) return null;
 
   return (
     <div>
@@ -32,6 +30,17 @@ function Event() {
         Event Page for{" "}
         <span className="emphasis">{eventData["eventName"]}</span>{" "}
       </h1>
+      <div className="innerContainer">
+        <p>
+          <strong>Share Event Code: </strong> {id}
+        </p>
+        <strong> Members: </strong>
+        <div className="members">
+          {eventData.invitees.map((invitee, i) => {
+            return <p key={i}> {invitee} | </p>;
+          })}
+        </div>
+      </div>
     </div>
   );
 }

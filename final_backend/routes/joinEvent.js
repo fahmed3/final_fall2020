@@ -10,6 +10,7 @@ router.get("/", (req, res) => {
   console.log("joinEvent");
 
   const queryParams = req.query;
+  const userName = queryParams["userName"];
 
   const events = db.collection("events").doc(queryParams["eventID"]);
   const user_ref = db.collection("users").doc(queryParams["userID"]);
@@ -25,9 +26,7 @@ router.get("/", (req, res) => {
       event_name = d["eventName"];
 
       transaction.update(events, {
-        invitees: firebase.firestore.FieldValue.arrayUnion(
-          `${queryParams["userID"]}`
-        ),
+        invitees: firebase.firestore.FieldValue.arrayUnion(userName),
       });
       transaction.update(user_ref, {
         all_events: firebase.firestore.FieldValue.arrayUnion({

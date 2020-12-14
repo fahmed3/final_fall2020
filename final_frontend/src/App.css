@@ -42,3 +42,12 @@
 .emphasis {
   color: lightseagreen;
 }
+
+.members {
+  display: flex;
+  flex-direction: row;
+}
+
+.members p {
+  padding-right: 5px;
+}

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 import firebase from "firebase/app";
 import "firebase/auth";
+import axios from "axios";
 // Styles
 import "./App.css";
 // Pages
@@ -14,7 +15,6 @@ import Home from "./containers/Home";
 import Header from "./components/Header";
 import CreateEvent from "./containers/CreateEvent";
 import Profile from "./containers/Profile";
-import CreateAnonAccount from "./containers/CreateAnonAccount";
 import JoinEvent from "./containers/JoinEvent";
 import Event from "./containers/Event";
 
@@ -103,32 +103,37 @@ function App() {
     e.preventDefault();
     const email = e.currentTarget.createEmail.value;
     const password = e.currentTarget.createPassword.value;
+    const name = e.currentTarget.createName.value;
 
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(function (response) {
-        console.log("VALID ACCOUNT CREATE FOR:", email, response);
+        console.log("VALID ACCOUNT CREATE FOR:", response["user"]);
+        const user = response["user"];
+        user
+          .updateProfile({
+            displayName: name,
+          })
+          .catch((e) => {
+            console.warn("display name error", e);
+          });
         setLoggedIn(true);
+        return user.uid;
+      })
+      .then((userID) => {
+        //also add to users collection
+        axios
+          .get(`http://localhost:4000/create/user?userID=${userID}`)
+          .then((response) => {
+            console.log("successful, response", response);
+          })
+          .catch((error) => {
+            console.warn("adding user error", error);
+          });
       })
       .catch(function (error) {
-        console.log("Account creation failed", error);
-      });
-  }
-
-  function CreateAnonAccountFunction(e) {
-    e.preventDefault();
-
-    firebase
-      .auth()
-      .signInAnonymously()
-      .then(() => {
-        //signedin stuff
-        setLoggedIn(true);
-        console.log("signed in yay");
-      })
-      .catch((error) => {
-        console.warn("ANON-SIGN-IN-ERROR", error);
+        console.warn("Account creation failed", error);
       });
   }
 
@@ -154,16 +159,6 @@ function App() {
           {/** If someone is logged in, do not take them to create account page */}
           {!loggedIn ? (
             <CreateAccount CreateAccountFunction={CreateAccountFunction} />
-          ) : (
-            <Redirect to="/" />
-          )}
-        </Route>
-        <Route exact path="/join">
-          {/** If someone is logged in, do not take them to create account page */}
-          {!loggedIn ? (
-            <CreateAnonAccount
-              CreateAnonAccountFunction={CreateAnonAccountFunction}
-            />
           ) : (
             <Redirect to="/" />
           )}

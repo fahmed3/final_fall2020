@@ -4,17 +4,19 @@ import { useHistory } from "react-router-dom";
 
 function JoinEvent({ userInformation }) {
   const history = useHistory();
-  let eventName = "";
 
   function joinEvent(e) {
     e.preventDefault();
     const eventID = e.currentTarget.eventID.value;
     const userID = userInformation.uid;
+    const userName = userInformation.displayName;
 
     axios
-      .get(`http://localhost:4000/join?eventID=${eventID}&userID=${userID}`)
+      .get(
+        `http://localhost:4000/join?eventID=${eventID}&userID=${userID}&userName=${userName}`
+      )
       .then(function (response) {
-        eventName = response.data["eventName"];
+        // eventName = response.data["eventName"];
         history.push(`/event/${eventID}`);
       })
       .catch(function (error) {
