@@ -33,23 +33,44 @@ function UploadPicture({ userInformation }) {
   function uploadFile(e) {
     e.preventDefault();
     const selectedFiles = document.getElementById("input").files;
-    const storageRef = firebase.storage().ref();
 
-    var imageFullRef, filepath;
+    let fileExtension, docID;
+    const filepath = `images/${id}`;
     for (var i = 0; i < selectedFiles.length; i++) {
-      filepath = `images/${selectedFiles[i]["name"]}`;
-      imageFullRef = storageRef.child(filepath);
-      imageFullRef.put(selectedFiles[i]).catch((error) => {
-        console.warn("error uploading file", error);
-      });
+      fileExtension = selectedFiles[i]["name"].split(".").pop();
+      // Add empty doc to images collection
+      axios
+        .get(`http://localhost:4000/upload/image?eventID=${id}`)
+        .then(function (response) {
+          docID = response.data["docID"];
+          return docID;
+        })
+        .then((docID) => {
+          updateFilePath(selectedFiles[i], filepath, docID, fileExtension);
+        })
+        .catch(function (error) {
+          console.warn("create event error", error);
+        });
     }
+  }
 
+  function updateFilePath(file, filepath, docID, extension) {
     axios
       .get(
-        `https://enigmatic-waters-66804.herokuapp.com/upload?eventID=${id}&filepath=${filepath}`
+        `http://localhost:4000/upload?eventID=${id}&filepath=${filepath}&filename=${docID}&fileExtension=${extension}`
       )
-      .then((response) => {
-        history.push(`/event/${id}`);
+      .then(() => {
+        // add to storage after successful
+        const storageRef = firebase.storage().ref();
+        const imageFullRef = storageRef.child(
+          `${filepath}/${docID}.${extension}`
+        );
+        imageFullRef.put(file).catch((error) => {
+          console.warn("error uploading file", error);
+        });
+      })
+      .then(() => {
+        history.push(`/gallery/${id}`);
       })
       .catch((error) => {
         console.warn("error uploading path", error);

@@ -17,7 +17,7 @@ function CreateEvent({ userInformation }) {
 
     axios
       .get(
-        `https://enigmatic-waters-66804.herokuapp.com/create?eventName=${eventName}&eventCreator=${creatorName}&eventCreatorId=${creatorId}`
+        `http://enigmatic-waters-66804.herokuapp.com/create?eventName=${eventName}&eventCreator=${creatorName}&eventCreatorId=${creatorId}`
       )
       .then(function (response) {
         console.log({ SUCCESS: response.data });

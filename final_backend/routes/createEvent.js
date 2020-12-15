@@ -12,12 +12,10 @@ router.get("/", (req, res) => {
   console.log("createEvent");
   const queryParams = req.query;
   queryParams["invitees"] = [];
-  queryParams["images"] = [];
 
   events
     .add(queryParams)
     .then((docRef) => {
-      console.log("doc ID: ", docRef.id);
       return res.send({ docID: docRef.id });
     })
     .catch((error) => {
@@ -46,20 +44,6 @@ router.get("/addtousers", (req, res) => {
       console.warn("add to user s error", error);
       return res.send(error);
     });
-  // users
-  //   .doc(queryParams["userID"])
-  //   .update({
-  //     all_events: firebase.firestore.FieldValue.arrayUnion({
-  //       eventID: `${queryParams["eventID"]}`,
-  //       eventName: `${queryParams["eventName"]}`,
-  //     })
-  //   .then(() => {
-  //     return res.send("success");
-  //   })
-  //   .catch((error) => {
-  //     console.warn("add to users error ", error);
-  //     return res.send(error);
-  //   })
 });
 
 //new user account

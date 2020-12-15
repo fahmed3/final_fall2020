@@ -6,10 +6,14 @@ function Home({ userInformation }) {
       <h1> Home </h1>
       <div className="innerContainerHome">
         <h2>
-          <a href="/join-event">Join Event</a>
+          <a className="buttonLink" href="/join-event">
+            Join Event
+          </a>
         </h2>
         <h2>
-          <a href={`/create-event`}>Create Event</a>
+          <a className="buttonLink" href={`/create-event`}>
+            Create Event
+          </a>
         </h2>
       </div>
     </div>

@@ -24,6 +24,7 @@ function AllEvents({ userInformation }) {
   }, [id]);
 
   if (loading) return null;
+
   return (
     <div>
       <h1> My Events </h1>

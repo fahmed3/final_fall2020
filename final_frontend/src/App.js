@@ -19,7 +19,7 @@ import JoinEvent from "./containers/JoinEvent";
 import Event from "./containers/Event";
 import UploadPicture from "./containers/UploadPicture";
 import AllEvents from "./containers/AllEvents";
-import Gallery from "./containers/Gallery";
+import GalleryClass from "./containers/GalleryClass";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
@@ -211,7 +211,7 @@ function App() {
           )}
         </Route>
         <Route exact path="/gallery/:id">
-          {!loggedIn ? <Redirect to="/login" /> : <Gallery />}
+          {!loggedIn ? <Redirect to="/login" /> : <GalleryClass />}
         </Route>
       </Router>
     </div>

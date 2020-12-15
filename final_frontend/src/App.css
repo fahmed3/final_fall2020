@@ -43,14 +43,14 @@
   flex-direction: column;
 }
 
-.innerContainerHome a {
+.buttonLink {
   padding: 0px 30px;
   border: solid 1px;
   text-decoration: none;
   color: seagreen;
 }
 
-.innerContainerHome a:hover {
+.buttonLink:hover {
   background-color: lightseagreen;
   color: darkgreen;
 }
@@ -68,8 +68,20 @@
   padding-right: 5px;
 }
 
-.Gallery a {
-  padding-top: 30px;
+.Gallery {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.GalleryClass a {
+  margin-top: 30px;
+  margin-right: auto;
+}
+
+.GalleryClass img {
+  max-width: 600px;
 }
 
 label {
@@ -90,8 +102,17 @@ button:hover {
   background-color: lightseagreen;
 }
 
+.App {
+  padding: 0px 25px 25px 25px;
+}
+
+a {
+  color: seagreen;
+}
+
+a:hover {
+  color: lightseagreen;
+}
+
 @media screen and (max-width: 640px) {
-  .App {
-    padding: 0px 25px 25px 25px;
-  }
 }
