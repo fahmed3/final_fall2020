@@ -6,6 +6,7 @@ const firebase = require("firebase");
 const db = firebase.firestore();
 const events = db.collection("events");
 
+// Update images collection
 router.get("/", (req, res) => {
   const queryParams = req.query;
   const eventID = queryParams["eventID"];
@@ -29,7 +30,7 @@ router.get("/", (req, res) => {
     });
 });
 
-//add empty document to /images collection to get reference
+// Create document for /images collection and get the reference
 router.get("/image", (req, res) => {
   const queryParams = req.query;
   const eventID = queryParams["eventID"];
@@ -39,7 +40,6 @@ router.get("/image", (req, res) => {
   images
     .add({ filepath: "" })
     .then((docRef) => {
-      console.log("doc ID: ", docRef.id);
       return res.send({ docID: docRef.id });
     })
     .catch((error) => {
@@ -48,23 +48,24 @@ router.get("/image", (req, res) => {
     });
 });
 
-//receive all filepaths
+// Receive all filepaths
 router.get("/images", (req, res) => {
   const queryParams = req.query;
   const eventID = queryParams["eventID"];
-  const filepath = queryParams["filepath"];
-  const docID = queryParams["filename"];
   const filepathArray = [];
 
-  const images = db.collection(`events/${eventID}/images`).doc();
+  const images = db.collection(`events/${eventID}/images`);
 
   images
     .get()
     .then((querySnapshot) => {
-      return res.send("hi");
+      querySnapshot.forEach((doc) => {
+        filepathArray.push(doc.data());
+      });
+      return res.send(filepathArray);
     })
     .catch((error) => {
-      console.warn("add image collection error ", error);
+      console.warn("get images error", error);
       return res.send(error);
     });
 });

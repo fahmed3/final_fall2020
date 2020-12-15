@@ -11,7 +11,6 @@ function Event() {
     axios
       .get(`https://enigmatic-waters-66804.herokuapp.com/event?eventID=${id}`)
       .then((response) => {
-        console.log("response", response.data);
         setEventData(response.data);
       })
       .catch((error) => {

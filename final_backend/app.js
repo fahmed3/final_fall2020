@@ -19,7 +19,6 @@ firebase.initializeApp(firebaseConfig);
 const indexRoute = require("./routes/index.js");
 const createEvent = require("./routes/createEvent.js");
 const joinEvent = require("./routes/joinEvent.js");
-const profile = require("./routes/profile.js");
 const event = require("./routes/event.js");
 const uploadImage = require("./routes/uploadImage.js");
 
@@ -33,7 +32,6 @@ app.use(function (req, res, next) {
 });
 
 app.use("/", indexRoute);
-app.use("/profile", profile);
 app.use("/create", createEvent);
 app.use("/join", joinEvent);
 app.use("/event", event);

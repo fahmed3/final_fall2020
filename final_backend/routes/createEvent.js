@@ -7,9 +7,8 @@ const db = firebase.firestore();
 const events = db.collection("events");
 const users = db.collection("users");
 
-//Creates event and returns document ID to user
+// Creates event and returns document ID to user
 router.get("/", (req, res) => {
-  console.log("createEvent");
   const queryParams = req.query;
   queryParams["invitees"] = [];
 
@@ -24,9 +23,8 @@ router.get("/", (req, res) => {
     });
 });
 
-//to make sure users collection is also updated
+// Update users collection too when event is created
 router.get("/addtousers", (req, res) => {
-  console.log("add to users");
   const queryParams = req.query;
 
   users
@@ -46,11 +44,9 @@ router.get("/addtousers", (req, res) => {
     });
 });
 
-//new user account
+// New user account to users collection
 router.get("/user", (req, res) => {
-  console.log("hellooooooo");
   const queryParams = req.query;
-  console.log("USERID", queryParams["userID"]);
   users
     .doc(queryParams["userID"])
     .set({ all_events: [] })

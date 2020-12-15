@@ -75,6 +75,10 @@
   align-items: center;
 }
 
+.UploadPicture a {
+  padding-top: 30px;
+}
+
 .GalleryClass a {
   margin-top: 30px;
   margin-right: auto;
@@ -112,7 +116,4 @@ a {
 
 a:hover {
   color: lightseagreen;
-}
-
-@media screen and (max-width: 640px) {
 }

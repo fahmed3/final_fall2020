@@ -5,13 +5,7 @@ const firebase = require("firebase");
 const db = firebase.firestore();
 const users = db.collection("users");
 
-// router.get("/", (req, res) => {
-//   console.log("home page for index");
-//   res.send("Home page, won't even be used");
-// });
-
 router.get("/all-events", (req, res) => {
-  console.log("all-events");
   const eventsArray = [];
   let event_ids = [];
   const queryParams = req.query;

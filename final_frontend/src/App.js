@@ -31,8 +31,8 @@ const firebaseConfig = {
 };
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false); // is logged in?
-  const [loading, setLoading] = useState(true); // is page loading?
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [userInformation, setUserInformation] = useState({});
 
   useEffect(() => {
@@ -61,32 +61,23 @@ function App() {
     });
   }, []);
 
-  // function for logging in
   function LoginFunction(e) {
-    // This is what you will run when you want to log in
     e.preventDefault();
     const email = e.currentTarget.loginEmail.value;
     const password = e.currentTarget.loginPassword.value;
-    console.log({ email, password });
 
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(function (response) {
-        console.log("Login RESPONSE", response);
         setLoggedIn(true);
       })
       .catch(function (error) {
-        console.log("Login ERROR", error);
         setLoggedIn(false);
       });
   }
 
-  // iAH7L4BGZEg4U72ipWlW96Mcb4Y2
-
-  // Function for logging out
   function LogoutFunction() {
-    // Function to run when you want to log out
     firebase
       .auth()
       .signOut()
@@ -99,9 +90,7 @@ function App() {
       });
   }
 
-  // Function for ceating an account
   function CreateAccountFunction(e) {
-    // what will run when you create an account
     e.preventDefault();
     const email = e.currentTarget.createEmail.value;
     const password = e.currentTarget.createPassword.value;
@@ -111,7 +100,6 @@ function App() {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(function (response) {
-        console.log("VALID ACCOUNT CREATE FOR:", response["user"]);
         const user = response["user"];
         user
           .updateProfile({
@@ -124,14 +112,11 @@ function App() {
         return user.uid;
       })
       .then((userID) => {
-        //also add to users collection
+        // also add to users collection
         axios
           .get(
             `https://enigmatic-waters-66804.herokuapp.com/create/user?userID=${userID}`
           )
-          .then((response) => {
-            console.log("successful, response", response);
-          })
           .catch((error) => {
             console.warn("adding user error", error);
           });
@@ -145,11 +130,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header
-        loggedIn={loggedIn}
-        LogoutFunction={LogoutFunction}
-        userInformation={userInformation}
-      />
+      <Header loggedIn={loggedIn} LogoutFunction={LogoutFunction} />
       <Router>
         <Route exact path="/login">
           {!loggedIn ? (

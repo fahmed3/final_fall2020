@@ -36,7 +36,9 @@ function GalleryClass() {
 
   useEffect(() => {
     axios
-      .get(`https://enigmatic-waters-66804.herokuapp.com/event?eventID=${id}`)
+      .get(
+        `https://enigmatic-waters-66804.herokuapp.com/upload/images?eventID=${id}`
+      )
       .then((response) => {
         setEventData(response.data);
         setLoading(false);
@@ -49,11 +51,11 @@ function GalleryClass() {
   useEffect(() => {
     const imagesArray = [];
     const storageRef = firebase.storage().ref();
-    if (eventData.images) {
-      eventData.images.map(
+    if (eventData) {
+      eventData.map(
         async (img) =>
           await storageRef
-            .child(img)
+            .child(img["filepath"])
             .getDownloadURL()
             .then((url) => {
               imagesArray.push(url);
@@ -69,11 +71,8 @@ function GalleryClass() {
 
   const photos = [];
   imagesArray.map((url, i) => {
-    photos.push({ src: url, width: 4, height: 3 });
+    photos.push({ src: url, width: 1, height: 1 });
   });
-
-  // const BasicRows = () => <Gallery photos={photos} />;
-  // render(<BasicRows />, document.getElementById("galleryClass"));
 
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
@@ -92,21 +91,12 @@ function GalleryClass() {
 
   return (
     <div className="GalleryClass">
-      <h1>
-        Gallery for <span className="emphasis">{eventData["eventName"]}</span>
-      </h1>
+      <h1>Gallery</h1>
       <div className="innerContainer">
         <h2>
           <a href={`/upload/${id}`}>Add to Gallery </a>{" "}
         </h2>
         <br />
-        <div className="Gallery">
-          {/* {imagesArray.map((url, i) => (
-            <a href={url}>
-              <img key={i} alt="" src={url} />
-            </a>
-          ))} */}
-        </div>
         <Gallery photos={photos} onClick={openLightbox} />
         <ModalGateway>
           {viewerIsOpen ? (
@@ -122,7 +112,9 @@ function GalleryClass() {
             </Modal>
           ) : null}
         </ModalGateway>
-        <a href={`/event/${id}`}>Back to Event</a>
+        <a className="footLink" href={`/event/${id}`}>
+          Back to Event
+        </a>
       </div>
     </div>
   );
