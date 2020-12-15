@@ -13,6 +13,7 @@ function CreateAccount({ CreateAccountFunction }) {
         <input type="password" name="createPassword" />
         <button>Submit</button>
       </form>
+      <div id="error"></div>
     </div>
   );
 }

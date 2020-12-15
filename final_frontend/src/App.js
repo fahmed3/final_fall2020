@@ -73,6 +73,8 @@ function App() {
         setLoggedIn(true);
       })
       .catch(function (error) {
+        document.getElementById("error").innerHTML =
+          "<strong>Failed to login.</strong><br/>Please make sure you're using the right email and password,<br/>or create and account if you don't have one.";
         setLoggedIn(false);
       });
   }
@@ -123,6 +125,9 @@ function App() {
       })
       .catch(function (error) {
         console.warn("Account creation failed", error);
+        document.getElementById(
+          "error"
+        ).innerHTML = `<strong>Failed to create account.</strong><br/>${error.message}`;
       });
   }
 

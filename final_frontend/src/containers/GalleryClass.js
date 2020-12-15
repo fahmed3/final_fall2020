@@ -71,7 +71,7 @@ function GalleryClass() {
 
   const photos = [];
   imagesArray.map((url, i) => {
-    photos.push({ src: url, width: 1, height: 1 });
+    photos.push({ src: url, width: 4, height: 3 });
   });
 
   const [currentImage, setCurrentImage] = useState(0);

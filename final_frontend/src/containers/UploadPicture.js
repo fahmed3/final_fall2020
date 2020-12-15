@@ -52,7 +52,7 @@ function UploadPicture({ userInformation }) {
           });
       });
     }
-  }, [selectedFiles]);
+  }, [id, selectedFiles]);
 
   useEffect(() => {
     if (docIds.length && selectedFiles.length) {

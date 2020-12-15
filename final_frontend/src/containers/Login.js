@@ -11,6 +11,7 @@ function Login({ LoginFunction }) {
         <input type="password" name="loginPassword" />
         <button>Submit</button>
       </form>
+      <div id="error"></div>
     </div>
   );
 }

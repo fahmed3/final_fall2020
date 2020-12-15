@@ -14,7 +14,7 @@ function CreateEvent({ userInformation }) {
 
     axios
       .get(
-        `http://enigmatic-waters-66804.herokuapp.com/create?eventName=${eventName}&eventCreator=${creatorName}&eventCreatorId=${creatorId}`
+        `https://enigmatic-waters-66804.herokuapp.com/create?eventName=${eventName}&eventCreator=${creatorName}&eventCreatorId=${creatorId}`
       )
       .then(function (response) {
         docID = response.data["docID"];

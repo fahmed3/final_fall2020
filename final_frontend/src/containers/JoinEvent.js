@@ -16,10 +16,12 @@ function JoinEvent({ userInformation }) {
         `https://enigmatic-waters-66804.herokuapp.com/join?eventID=${eventID}&userID=${userID}&userName=${userName}`
       )
       .then(function (response) {
-        history.push(`/event/${eventID}`);
+        if (!response.data)
+          document.getElementById("error").innerHTML = "Could not find event.";
+        else history.push(`/event/${eventID}`);
       })
       .catch(function (error) {
-        console.warn("error creating post", error);
+        console.warn("error creating event", error);
       });
   }
 
@@ -31,6 +33,7 @@ function JoinEvent({ userInformation }) {
         <input type="text" name="eventID" placeholder="Event ID" />
         <button type="submit"> Join </button>
       </form>
+      <div id="error"></div>
     </div>
   );
 }

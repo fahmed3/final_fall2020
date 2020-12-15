@@ -21,7 +21,7 @@ function Event() {
   if (!eventData.invitees) return null;
 
   return (
-    <div>
+    <div className="Event">
       <h1>
         Event Page for{" "}
         <span className="emphasis">{eventData["eventName"]}</span>

@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
     return transaction.get(events).then(function (doc) {
       if (!doc.exists) {
         console.warn("doc does not exist");
-        res.send([]);
+        res.send(null);
       }
 
       d = doc.data();
